@@ -67,6 +67,7 @@ export class CustomerService implements ICustomerService {
         const customer = this.customerRepository.getById(customerId);
         const product = this.productRepository.getById(productId);
 
+
         const orderItem = new OrderItem({
             product,
             quantity,
@@ -80,7 +81,14 @@ export class CustomerService implements ICustomerService {
             });
             return true;
         } else {
-            customer.shoppingCart.items.push(orderItem);
+            const productIndex = customer.shoppingCart.items
+                .findIndex(item => item.product.id === orderItem.product.id);
+            if (productIndex !== -1){
+                customer.shoppingCart.items[productIndex].quantity = 
+                    +customer.shoppingCart.items[productIndex].quantity + +quantity;
+            } else {
+                customer.shoppingCart.items.push(orderItem);
+            }
         }
 
         this.customerRepository.update(customerId, customer);
