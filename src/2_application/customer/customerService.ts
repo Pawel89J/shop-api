@@ -83,9 +83,10 @@ export class CustomerService implements ICustomerService {
         } else {
             const productIndex = customer.shoppingCart.items
                 .findIndex(item => item.product.id === orderItem.product.id);
+            const previousQuantity = customer.shoppingCart.items[productIndex].quantity;
             if (productIndex !== -1){
                 customer.shoppingCart.items[productIndex].quantity = 
-                    +customer.shoppingCart.items[productIndex].quantity + +quantity;
+                    +previousQuantity + +quantity;
             } else {
                 customer.shoppingCart.items.push(orderItem);
             }
@@ -128,12 +129,10 @@ export class CustomerService implements ICustomerService {
     }
 
     public emptyCart(customerId: string): Customer {
-        const customer = this.customerRepository.getById(customerId);
-
+        const customer = new Customer(this.customerRepository.getById(customerId));
         if (customer === null) {
             throw Error("Customer not found. Param: id: " + customerId);
         }
-
         customer.emptyCart();
         this.customerRepository.update(customerId, customer);
         return customer;
