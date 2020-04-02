@@ -54,10 +54,10 @@ export class CustomerService implements ICustomerService {
         const dbEntity = this.customerRepository.getById(customerId);
         const customer = new Customer(dbEntity);
 
-        customer.purchase();
         const order = customer.shoppingCart.purchase(customer);
         order.createBillingInformation();
-
+        customer.purchase();
+        
         this.customerRepository.update(customerId, customer);
         this.orderRepository.add(order);
 
@@ -83,10 +83,9 @@ export class CustomerService implements ICustomerService {
         } else {
             const productIndex = customer.shoppingCart.items
                 .findIndex(item => item.product.id === orderItem.product.id);
-            const previousQuantity = customer.shoppingCart.items[productIndex].quantity;
             if (productIndex !== -1){
-                customer.shoppingCart.items[productIndex].quantity = 
-                    +previousQuantity + +quantity;
+                const previousQuantity = customer.shoppingCart.items[productIndex].quantity;
+                customer.shoppingCart.items[productIndex].quantity = +previousQuantity + +quantity;
             } else {
                 customer.shoppingCart.items.push(orderItem);
             }
