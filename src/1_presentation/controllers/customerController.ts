@@ -62,13 +62,13 @@ export class CustomerController {
   public addItemToCart(@requestParam("id") id: string,
                        @queryParam("productId") productId: string,
                        @queryParam("quantity") quantity: number): boolean {
-      return this.customerService.addItemToCart(id, productId, quantity);
+      return this.customerService.addItemToCart(id, productId, +quantity);
   }
   @httpDelete("/:id/cart")
   public removeItemFromCart(@requestParam("id") id: string,
                             @queryParam("productId") productId: string,
                             @queryParam("quantity") quantity: number): boolean {
-      return this.customerService.removeItemFromCart(id, productId, quantity);
+      return this.customerService.removeItemFromCart(id, productId, +quantity);
   }
 
   @httpDelete("/:id/cart/empty")

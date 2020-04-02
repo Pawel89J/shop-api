@@ -8,7 +8,7 @@ import { List } from "linqts";
 export class Order {
 
     public get sum(): number {
-        return new List(this.items).Select((item) => item.product.price ).Sum();
+        return this.items.reduce((acc, curr) => acc + (curr.quantity * curr.product.price), 0);
     }
 
     public id: string;
