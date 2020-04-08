@@ -12,7 +12,7 @@ export interface ICustomerService {
     addAddressToCustomer(customerId: string, address: Address): boolean;
     addItemToCart(customerId: string, productId: string, quantity: number): boolean;
     removeItemFromCart(customerId: string, productId: string, quantity: number): boolean;
-    purchase(customerId: string): boolean;
+    purchase(customerId: string): string;
     updateCustomerEmail(id: string, email: string): Customer;
     emptyCart(customerId: string): Customer;
 }

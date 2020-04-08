@@ -50,18 +50,19 @@ export class CustomerService implements ICustomerService {
         return true;
     }
 
-    public purchase(customerId: string): boolean {
+    public purchase(customerId: string): string {
         const dbEntity = this.customerRepository.getById(customerId);
         const customer = new Customer(dbEntity);
 
         const order = customer.shoppingCart.purchase(customer);
-        order.createBillingInformation();
         customer.purchase();
+        order.createBillingInformation();
+        
         
         this.customerRepository.update(customerId, customer);
         this.orderRepository.add(order);
 
-        return true;
+        return order.id;
     }
     public addItemToCart(customerId: string, productId: string, quantity: number): boolean {
         const customer = this.customerRepository.getById(customerId);

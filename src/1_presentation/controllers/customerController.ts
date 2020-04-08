@@ -49,7 +49,7 @@ export class CustomerController {
   }
 
   @httpPost("/:id/purchase")
-  public purchase(@requestParam("id") id: string): boolean {
+  public purchase(@requestParam("id") id: string): string {
       return this.customerService.purchase(id);
   }
 

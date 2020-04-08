@@ -18,10 +18,11 @@ export class Customer {
     public orders: Order[];
 
     public constructor(init?: Partial<Customer>) {
-        Object.assign(this, init);
-        this.shoppingCart = new ShoppingCart();
-        if (init.shoppingCart) {
-            this.shoppingCart.items = init.shoppingCart.items;
+        Object.assign(this, init); 
+        if (this.shoppingCart === null || this.shoppingCart === undefined) {
+            this.shoppingCart = new ShoppingCart();
+        } else {
+            this.shoppingCart = new ShoppingCart(this.shoppingCart);
         }
     }
 
